@@ -1,8 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { modelsData } from '@/data/modelsData';
+import { fetchModels, Model } from '@/api/models';
 
 const ModelsList: React.FC = () => {
+  const [modelsData, setModelsData] = useState<Model[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchModels().then(data => {
+      setModelsData(data);
+      setLoading(false);
+    });
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="w-full py-8 text-center">
+        <p className="text-gray-500">Loading models...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full py-8">
       <h2 className="text-3xl font-bold mb-6 text-black text-center" style={{ fontFamily: 'var(--font-alpha-lyrae)' }}>

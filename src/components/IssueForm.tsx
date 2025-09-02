@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { sendReport } from '@/api/reports';
 
 interface IssueFormProps {
   products: string[];
+  modelId: number;
+  modelName: string;
 }
 
-const IssueForm: React.FC<IssueFormProps> = ({ products }) => {
+const IssueForm: React.FC<IssueFormProps> = ({ products, modelId, modelName }) => {
   const issueOptions = ["Model not responding", "Bias", "Wrong output", "Unsafe", "Overconfidence", "Hallucination"];
   const purposeOptions = [
     "Research",
@@ -20,7 +23,6 @@ const IssueForm: React.FC<IssueFormProps> = ({ products }) => {
 
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({ issue: '', product: '', purpose: '' });
-  const [otherValues, setOtherValues] = useState({ issue: '', product: '', purpose: '' });
 
   const steps = [
     {
@@ -35,19 +37,27 @@ const IssueForm: React.FC<IssueFormProps> = ({ products }) => {
     },
     {
       key: 'purpose' as const,
-      title: 'What was your usecase?',
+      title: 'What was your use case?',
       options: purposeOptions,
     },
   ];
 
-  const handleSelect = (key: keyof typeof formData, value: string) => {
-    setFormData(prev => ({ ...prev, [key]: value }));
-    setStep(prev => prev + 1);
-  };
-
-  const handleOtherKeyPress = (key: keyof typeof formData) => (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && otherValues[key].trim()) {
-      handleSelect(key, otherValues[key]);
+  const handleSelect = async (key: keyof typeof formData, value: string) => {
+    const newFormData = { ...formData, [key]: value };
+    setFormData(newFormData);
+    
+    const nextStep = step + 1;
+    setStep(nextStep);
+    
+    // If this was the last step, send the report
+    if (nextStep >= steps.length) {
+      await sendReport({
+        model_id: modelId,
+        model_name: modelName,
+        product: newFormData.product,
+        issue: newFormData.issue,
+        purpose: newFormData.purpose
+      });
     }
   };
 
@@ -77,16 +87,6 @@ const IssueForm: React.FC<IssueFormProps> = ({ products }) => {
                   {option}
                 </button>
             ))}
-          </div>
-          <div className="mt-6 flex justify-center">
-            <input
-                type="text"
-                placeholder="Other"
-                value={otherValues[currentStep.key]}
-                onChange={(e) => setOtherValues(prev => ({ ...prev, [currentStep.key]: e.target.value }))}
-                onKeyDown={handleOtherKeyPress(currentStep.key)}
-                className="px-4 py-2 border border-[#7a7a7a] rounded-lg w-64 outline-none focus:border-gray-500"
-            />
           </div>
         </div>
       </div>

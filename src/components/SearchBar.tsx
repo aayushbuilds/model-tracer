@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {Search} from "lucide-react";
-import { modelsData } from '@/data/modelsData';
+import { fetchModels, Model } from '@/api/models';
 
 interface SearchBarProps {
   placeholder?: string;
@@ -21,14 +21,21 @@ const SearchBar: React.FC<SearchBarProps> = ({
   const [internalValue, setInternalValue] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const [filteredModels, setFilteredModels] = useState(modelsData);
+  const [modelsData, setModelsData] = useState<Model[]>([]);
+  const [filteredModels, setFilteredModels] = useState<Model[]>([]);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const value = controlledValue !== undefined ? controlledValue : internalValue;
 
   useEffect(() => {
-    if (value.trim()) {
+    fetchModels().then(data => {
+      setModelsData(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (value.trim() && modelsData.length > 0) {
       const filtered = modelsData.filter(model =>
         model.model.toLowerCase().includes(value.toLowerCase())
       );
@@ -39,7 +46,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
       setFilteredModels([]);
     }
     setSelectedIndex(-1);
-  }, [value]);
+  }, [value, modelsData]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
