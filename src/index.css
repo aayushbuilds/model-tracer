@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Alpha Lyrae';
+  src: url('/fonts/alpha-lyrae-medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+:root {
+  --font-barlow: 'Barlow', sans-serif;
+  --font-alpha-lyrae: 'Alpha Lyrae', sans-serif;
+  --font-geist-sans: 'Geist', sans-serif;
+  --font-geist-mono: 'Geist Mono', monospace;
+}
+
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+body {
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  font-family: var(--font-barlow);
+}
+
+body::-webkit-scrollbar,
+html::-webkit-scrollbar,
+.hidden-scroll::-webkit-scrollbar{
+  display: none;
+  width: 0;
+  background: transparent;
+}
+
+html, body  {
+  -webkit-overflow-scrolling: touch;
+}
+
+@keyframes pulseRed {
+  0%,to {
+    color: inherit
+  }
+
+  50% {
+    color: #ff3b3b
+  }
+}
+
+.pulse-red-text {
+  animation: pulseRed 1.5s ease-in-out infinite;
+}
