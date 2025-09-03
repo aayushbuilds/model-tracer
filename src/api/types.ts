@@ -106,3 +106,24 @@ export interface ReportsByModelProductResponse {
         bytes_read: number;
     };
 }
+
+export interface DailySummaryData {
+    day_start: string;
+    model_id: string;
+    model_name: string;
+    product: string;
+    issue: string;
+    report_count: number;
+}
+
+export interface ReportsDailySummaryResponse {
+    meta: Array<{ name: string; type: string }>;
+    data: DailySummaryData[];
+    rows: number;
+    rows_before_limit_at_least: number;
+    statistics: {
+        elapsed: number;
+        rows_read: number;
+        bytes_read: number;
+    };
+}

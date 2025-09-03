@@ -22,7 +22,7 @@ export default function Home() {
                 <ShamelessRaindropPlug/>
 
                 <div className=" mt-2 flex flex-row align-top gap-8">
-                    <div className="w-[70%]">
+                    <div className="w-[60%]">
                         <SearchBar
                             value={searchValue}
                             onChange={setSearchValue}
@@ -34,8 +34,8 @@ export default function Home() {
               </span>
                         </div>
                     </div>
-                    <div className="w-[40%]">
-                        <span>MOST RELIABLE</span>
+                    <div className="w-[45%]">
+                        <span>LATEST REPORTS</span>
                         <div className={"h-2"}></div>
                         <StatusTable/>
                     </div>
