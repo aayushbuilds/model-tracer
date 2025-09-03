@@ -8,8 +8,8 @@ export interface TabOption {
 
 interface TabsSliderProps {
     options: TabOption[];
-    value?: string | string[];
-    onChange?: (value: string | string[]) => void;
+    value?: string;
+    onChange?: (value: string) => void;
     multiple?: boolean;
     className?: string;
 }
@@ -18,23 +18,15 @@ const TabsSlider: React.FC<TabsSliderProps> = ({
                                                    options,
                                                    value,
                                                    onChange,
-                                                   multiple = false,
                                                    className,
                                                }) => {
-    const [selectedValues, setSelectedValues] = useState<string[]>(() => {
-        if (value === undefined) return [];
-        return Array.isArray(value) ? value : [value];
-    });
+    const [selectedValue, setSelectedValue] = useState(value);
     const [sliderStyle, setSliderStyle] = useState<React.CSSProperties>({});
     const tabsRef = useRef<HTMLDivElement>(null);
     const tabRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
     const [mounted, setMounted] = useState(false);
 
-    const controlledValues = value !== undefined
-        ? (Array.isArray(value) ? value : [value])
-        : selectedValues;
-
-    const activeTab = controlledValues[0] || options[0]?.value;
+    const activeTab = value || selectedValue
 
     useEffect(() => {
         setMounted(true);
@@ -43,7 +35,7 @@ const TabsSlider: React.FC<TabsSliderProps> = ({
     useEffect(() => {
         if (!mounted) return;
 
-        const activeButton = tabRefs.current.get(activeTab);
+        const activeButton = tabRefs.current.get(activeTab || "");
         const container = tabsRef.current;
 
         if (activeButton && container) {
@@ -62,23 +54,8 @@ const TabsSlider: React.FC<TabsSliderProps> = ({
     }, [activeTab, mounted, options]);
 
     const handleTabClick = (tabValue: string) => {
-        let newValues: string[];
-
-        if (multiple) {
-            if (controlledValues.includes(tabValue)) {
-                newValues = controlledValues.filter(v => v !== tabValue);
-            } else {
-                newValues = [...controlledValues, tabValue];
-            }
-        } else {
-            newValues = [tabValue];
-        }
-
-        if (value === undefined) {
-            setSelectedValues(newValues);
-        }
-
-        onChange?.(multiple ? newValues : newValues[0] || '');
+        setSelectedValue(tabValue);
+        onChange?.(tabValue);
     };
 
     return (
@@ -95,7 +72,7 @@ const TabsSlider: React.FC<TabsSliderProps> = ({
         >
       <span
           className={cn(
-              'bg-gradient-to-b from-white to-gray-50 ',
+              'bg-gradient-to-b from-white from-[42.45%] to-[#f0f0f0] to-[98.12%]',
               'shadow-[0px_1.283px_5.134px_0px_rgba(0,0,0,0.15)]',
               'rounded-lg',
           )}
@@ -103,9 +80,7 @@ const TabsSlider: React.FC<TabsSliderProps> = ({
       />
 
             {options.map((option) => {
-                const isActive = multiple
-                    ? controlledValues.includes(option.value)
-                    : option.value === activeTab;
+                const isActive = option.value === activeTab;
 
                 return (
                     <button
