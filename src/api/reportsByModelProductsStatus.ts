@@ -10,7 +10,7 @@ export async function fetchReportsByModelProductStatus(modelId: number, product:
 
     try {
         const response = await fetch(
-            `https://api.us-east.aws.tinybird.co/v0/pipes/reports_model_product_status.json?token=${token}&model_id=${modelId}&product=${encodeURIComponent(product)}`
+            `https://api.us-east.aws.tinybird.co/v0/pipes/reports_model_products_status.json?token=${token}&model_id=${modelId}&product=${encodeURIComponent(product)}`
         );
 
         if (!response.ok) {
