@@ -7,6 +7,8 @@ import ShamelessRaindropPlug from "@/components/ShamelessRaindropPlug";
 import IssueForm from "@/components/IssueForm";
 import {Model, ReportSummary} from "@/api/types.ts";
 import { PieChart, Pie, Cell,  Tooltip,  ResponsiveContainer } from 'recharts';
+import {percentOfTotal} from "@/utils.ts";
+import TabsSlider from "@/components/TabsSlider.tsx";
 
 const COLORS = ['#0D6B9C', '#aae0ee', '#fc7016', '#fbc171', '#eb5252', '#522078', '#ff7c7c'];
 
@@ -47,6 +49,11 @@ export default function ModelDetail() {
         return null;
     }
 
+    const tabOptions = [
+        { value: 'all', label: 'All' },
+        ...model.products.map(product => ({ value: product, label: product }))
+    ];
+
     return (
         <div className="min-h-screen p-8">
             <Header />
@@ -68,17 +75,18 @@ export default function ModelDetail() {
                     <IssueForm products={model.products} modelId={model.id} modelName={model.model} />
                 </div>
                 <div className="w-[40%]">
+                    <TabsSlider  options={tabOptions}/>
                     {reportData.length > 0 && reportData[0].total_reports > 0 ? (
                         <div>
                             {(() => {
                                 const data = reportData[0];
                                 const issueData = [
-                                    { issue: 'Hallucinations', count: data.hallucinations || 0 },
-                                    { issue: 'Biases', count: data.biases || 0 },
-                                    { issue: 'Wrong Outputs', count: data.wrong_outputs || 0 },
-                                    { issue: 'Unsafe', count: data.unsafes || 0 },
-                                    { issue: 'Overconfidence', count: data.overconfidences || 0 },
-                                    { issue: 'Not Responding', count: data.model_not_responding || 0 }
+                                    { issue: 'Hallucinations', count: percentOfTotal(data.hallucinations, data.total_reports) },
+                                    { issue: 'Biases', count: percentOfTotal(data.biases, data.total_reports) },
+                                    { issue: 'Wrong Outputs', count: percentOfTotal(data.wrong_outputs, data.total_reports) },
+                                    { issue: 'Unsafe', count: percentOfTotal(data.unsafes, data.total_reports) },
+                                    { issue: 'Overconfidence', count: percentOfTotal(data.overconfidences, data.total_reports) },
+                                    { issue: 'Not Responding', count: percentOfTotal(data.model_not_responding, data.total_reports) },
                                 ].filter(item => item.count > 0);
 
                                 return (
@@ -99,7 +107,7 @@ export default function ModelDetail() {
                                                                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                                             ))}
                                                         </Pie>
-                                                        <Tooltip />
+                                                        <Tooltip formatter={(value: number) => `${value.toFixed(2)}%`}  />
                                                     </PieChart>
                                                 </ResponsiveContainer>
 
