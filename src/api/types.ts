@@ -79,6 +79,24 @@ export interface ReportsByIssueResponse {
     };
 }
 
+export interface ModelProductStatusData {
+    last_hour_reports: number;
+    avg_reports: number;
+    is_above_average: number;
+}
+
+export interface ReportsByModelProductStatusResponse {
+    meta: Array<{ name: string; type: string }>;
+    data: ModelProductStatusData[];
+    rows: number;
+    rows_before_limit_at_least: number;
+    statistics: {
+        elapsed: number;
+        rows_read: number;
+        bytes_read: number;
+    };
+}
+
 export interface ReportsByModelProductResponse {
     meta: Array<{ name: string; type: string }>;
     data: ReportSummary[];

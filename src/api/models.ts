@@ -1,8 +1,5 @@
 import {Model, TinybirdResponse} from "@/api/types.ts";
 
-export { Model };
-
-
 export async function fetchModels(): Promise<Model[]> {
     const token = import.meta.env.VITE_TB_LOCAL_TOKEN;
 
