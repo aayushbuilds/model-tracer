@@ -14,7 +14,7 @@ interface IssueBreakdownChartProps {
 }
 
 type ReportByProduct = {
-    [key: string]: ReportSummary[];
+    [key: string]: ReportSummary[]
 };
 
 const ChartContent = ({data}: { data: ReportSummary }) => {

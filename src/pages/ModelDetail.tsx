@@ -14,18 +14,23 @@ export default function ModelDetail() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const modelId = parseInt(id || '');
+        const loadModel = async () => {
+            const modelId = parseInt(id || '');
+            const modelsData = await fetchModels();
 
-        fetchModels().then(modelsData => {
             const foundModel = modelsData.find(m => m.id === modelId);
             if (!foundModel) {
                 navigate('/');
-            } else {
-                setModel(foundModel);
-                setLoading(false);
+                return;
             }
-        });
+
+            setModel(foundModel);
+            setLoading(false);
+        };
+
+        void loadModel();
     }, [id, navigate]);
+
 
     if (loading) {
         return (

@@ -36,7 +36,7 @@ const ModelsList: React.FC = () => {
             <div>
               <h3 className="font-semibold text-[#7a7a7a] text-lg mb-2">{model.model}</h3>
               <div className="flex flex-wrap gap-1">
-                {model.products.slice(0, 3).map((product, index) => (
+                {model.products.slice(0, 3).map((product: string, index: number) => (
                   <span
                     key={index}
                     className="text-xs px-2 py-1 bg-gray-100 rounded-md text-gray-600"

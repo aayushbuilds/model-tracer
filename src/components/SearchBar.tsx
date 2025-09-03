@@ -141,7 +141,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
             >
               <div className="font-medium text-gray-900">{model.model}</div>
               <div className="flex flex-wrap gap-1 mt-1">
-                {model.products.slice(0, 3).map((product, idx) => (
+                {model.products.slice(0, 3).map((product: string, idx: number) => (
                   <span
                     key={idx}
                     className="text-xs px-2 py-0.5 bg-gray-100 rounded text-gray-600"
