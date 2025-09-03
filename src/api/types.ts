@@ -80,8 +80,7 @@ export interface ReportsByIssueResponse {
 }
 
 export interface ModelProductStatusData {
-    last_hour_reports: number;
-    avg_reports: number;
+    product: string;
     is_above_average: number;
 }
 

@@ -1,6 +1,6 @@
 import {ReportsByModelProductStatusResponse, ModelProductStatusData} from '@/api/types';
 
-export async function fetchReportsByModelProductStatus(modelId: number, product: string): Promise<ModelProductStatusData[]> {
+export async function fetchReportsByModelProductStatus(modelId: number): Promise<ModelProductStatusData[]> {
     const token = import.meta.env.VITE_TB_LOCAL_TOKEN;
 
     if (!token) {
@@ -10,7 +10,7 @@ export async function fetchReportsByModelProductStatus(modelId: number, product:
 
     try {
         const response = await fetch(
-            `https://api.us-east.aws.tinybird.co/v0/pipes/reports_model_products_status.json?token=${token}&model_id=${modelId}&product=${encodeURIComponent(product)}`
+            `https://api.us-east.aws.tinybird.co/v0/pipes/reports_model_product_status.json?token=${token}&model_id=${modelId}`
         );
 
         if (!response.ok) {

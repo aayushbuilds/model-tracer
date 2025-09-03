@@ -107,7 +107,7 @@ export default function IssueBreakdownChart({modelId, products}: IssueBreakdownC
         };
 
         void fetchAllData();
-    }, [modelId, products]);
+    }, []);
 
     const handleTabChange = useCallback((value: string) => {
         setSelectedProduct(value);

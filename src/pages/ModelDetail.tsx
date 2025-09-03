@@ -39,12 +39,10 @@ export default function ModelDetail() {
         const fetchModelStatus = async () => {
             const statusResults: Record<string, ModelProductStatusData> = {};
 
-            for (const product of model.products) {
-                const data = await fetchReportsByModelProductStatus(model.id, product);
-                if (data && data.length > 0) {
-                    statusResults[product] = data[0];
-                }
-            }
+            const data = await fetchReportsByModelProductStatus(model.id);
+            data.forEach(item => {
+                statusResults[item.product] = item;
+            });
 
             setStatusData(statusResults);
         };
