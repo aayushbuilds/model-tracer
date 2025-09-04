@@ -128,3 +128,20 @@ export interface ReportsDailySummaryResponse {
         bytes_read: number;
     };
 }
+
+export interface ProductWeekData {
+    product: string;
+    hourly_counts: number[];
+}
+
+export interface ReportsModelProductWeekResponse {
+    meta: Array<{ name: string; type: string }>;
+    data: ProductWeekData[];
+    rows: number;
+    rows_before_limit_at_least: number;
+    statistics: {
+        elapsed: number;
+        rows_read: number;
+        bytes_read: number;
+    };
+}
