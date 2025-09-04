@@ -21,9 +21,6 @@ export const Header: React.FC<HeaderProps> = ({
         }
     };
 
-    const gotoAbout = () => {
-        navigate('/about');
-    };
 
     return (
         <div className="flex flex-row items-center justify-between top-0 z-50 bg-[#FDFDFD] px-9 -mx-9">
@@ -40,13 +37,6 @@ export const Header: React.FC<HeaderProps> = ({
                     style={{fontFamily: 'var(--font-alpha-lyrae)'}}
                 >
                     Models We Monitor
-                </button>
-                <button
-                    onClick={gotoAbout}
-                    className="text-gray-700 hover:text-black transition-colors duration-200 cursor-pointer font-medium"
-                    style={{fontFamily: 'var(--font-alpha-lyrae)'}}
-                >
-                    About
                 </button>
             </div>
         </div>
