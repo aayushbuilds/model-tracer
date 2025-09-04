@@ -20,7 +20,8 @@ export async function sendReport(data: ReportData): Promise<boolean> {
         model_name: data.model_name,
         product: data.product,
         issue: data.issue,
-        purpose: data.purpose
+        purpose: data.purpose,
+        location: data.location,
     };
 
     try {

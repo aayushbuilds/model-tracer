@@ -21,6 +21,7 @@ export interface ReportData {
     product: string;
     issue: string;
     purpose: string;
+    location: string;
 }
 
 export interface IssueBreakdown {
